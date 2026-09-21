@@ -25,6 +25,8 @@ export const resume = {
       <h1>Resume</h1>
       <p class="intro">${summary}</p>
       <div class="actions">
+        <a class="button primary" href="${profile.resumePdf}" target="_blank" rel="noopener">View PDF <span>&#8599;</span></a>
+        <a class="text-link" href="${profile.resumePdf}" download="Agastya_Kukudala_Resume.pdf">Download PDF</a>
         <a class="text-link" href="mailto:${profile.email}">${profile.email}</a>
         <a class="text-link" href="${profile.linkedin}" target="_blank" rel="noopener">LinkedIn &#8599;</a>
         <a class="text-link" href="${profile.github}" target="_blank" rel="noopener">GitHub &#8599;</a>

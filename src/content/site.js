@@ -5,6 +5,7 @@ export const profile = {
   name: 'Agastya Kukudala',
   role: 'Software Engineering',
   photo: '/headshot.jpg',   // 256px square, served from public/
+  resumePdf: '/Resume.pdf', // served from public/; replace the file to update
   study: 'CS + Advertising @ UIUC',
   studyDates: 'May 2026 — Dec 2028',
   location: 'Chesterfield, MO',
