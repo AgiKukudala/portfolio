@@ -254,48 +254,6 @@
 
 /* -- asterkv ------------------------------------------------------------- */
 
-.cluster-stage {
-  background: linear-gradient(150deg, var(--surface-2), var(--surface));
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 44px 40px;
-  gap: 24px;
-  margin-top: 22px;
-  min-height: 260px;
-}
-.client-node {
-  border: 1px solid var(--accent-line);
-  border-radius: var(--radius);
-  padding: 20px 24px;
-  display: grid;
-  gap: 12px;
-  background: var(--surface);
-}
-.client-node span { font: 9px var(--mono); color: var(--muted); }
-.client-node b { font-weight: 500; font-size: 14px; color: var(--ink); }
-.connection-line { color: var(--line-strong); font-size: 24px; }
-
-.nodes { display: flex; flex-direction: column; gap: 10px; }
-.nodes > div {
-  border: 1px solid var(--line-strong);
-  border-radius: var(--radius);
-  background: var(--surface);
-  padding: 12px 18px;
-  display: grid;
-  grid-template-columns: 8px 80px 1fr;
-  gap: 10px;
-  align-items: center;
-  font: 11px var(--mono);
-  color: var(--body);
-}
-.nodes .tiny-dot { background: var(--line-strong); }
-.nodes .reachable { border-color: var(--accent-line); background: var(--accent-soft); }
-.nodes .reachable .tiny-dot { background: var(--accent); }
-.nodes small { font-size: 9px; color: var(--muted); }
-
 .aster-workspace {
   display: grid;
   grid-template-columns: 1fr 1.2fr;
@@ -310,22 +268,6 @@
 .command-panel h2 { font-size: 22px; margin-bottom: 22px; }
 .command-panel label { margin: 15px 0; }
 .command-panel .button, .command-panel #retry { width: 100%; margin: 12px 0 0; }
-
-.response-panel pre {
-  font: 12px/1.8 var(--mono);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  min-height: 300px;
-  color: var(--accent-deep);
-  margin: 24px 0;
-  padding: 20px;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-}
-.response-note { font-size: 11px; line-height: 1.8; color: var(--muted); margin-bottom: 18px; }
-.response-note .dot { margin-right: 6px; }
-.aster-steps { font-size: 13px; color: var(--body); line-height: 2.4; padding-left: 20px; }
 
 /* -- responsive ---------------------------------------------------------- */
 
@@ -353,7 +295,6 @@
   .signal { flex-direction: column; gap: 14px; }
   .analysis-heading { align-items: start; flex-direction: column; }
   .walkthrough { grid-template-columns: 1fr; gap: 20px; }
-  .cluster-stage { flex-wrap: wrap; padding: 26px 16px; gap: 14px; }
   .aster-workspace { grid-template-columns: 1fr; }
   .command-panel { border-right: 0; border-bottom: 1px solid var(--line); }
   .command-panel, .response-panel { padding: 22px; }
@@ -376,11 +317,6 @@
   .timeline > div { grid-template-columns: 78px 1fr auto; }
   .timeline-dot { display: none; }
   .table-wrap th, .table-wrap td { padding: 9px 5px; font-size: 9px; }
-  .cluster-stage > .connection-line:nth-of-type(4) { display: none; }
-  .nodes { flex-direction: row; width: 100%; justify-content: center; gap: 7px; margin-top: 12px; }
-  .nodes > div { padding: 10px 8px; font-size: 10px; gap: 6px; grid-template-columns: 5px 1fr; }
-  .nodes small { grid-column: 2; font-size: 8px; }
-  .response-panel pre { min-height: 220px; font-size: 11px; }
   dl { grid-template-columns: 90px 1fr; }
 }
 
@@ -546,18 +482,6 @@
 .outcome.neutral .outcome-text code,
 .outcome.error .outcome-text code { background: rgb(255 255 255 / .7); }
 
-#raw-wrap { margin-top: 14px; }
-#raw-wrap pre {
-  font: 11px/1.7 var(--mono);
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  margin: 10px 0 0;
-  padding: 14px;
-  background: var(--surface-2);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  color: var(--accent-deep);
-}
 
 /* ==========================================================================
    Guided tour list
@@ -579,81 +503,176 @@
   .outcome { padding: 16px; }
 }
 
-/* -- "What happened" round-trip diagram ----------------------------------- */
-/* Static by default; the pulse only animates while a command is in flight,
-   and only for readers who have not asked for reduced motion. */
-.flow { margin: 0 0 16px; }
-.flow-svg { display: block; width: 100%; max-width: 380px; height: auto; margin: 0 auto; }
-.flow-caption {
-  margin: 8px 0 0;
-  font: 10px/1.6 var(--mono);
-  color: var(--muted);
-  text-align: center;
-}
+/* ==========================================================================
+   InsiderPulse additions: runs-in note, explorer view filters, results summary
+   ========================================================================== */
 
-.flow-chip rect, .flow-node rect {
-  fill: var(--surface);
-  stroke: var(--line);
-  stroke-width: 1;
-  transition: fill .25s ease, stroke .25s ease;
+.runs-in { font: 10px var(--mono); letter-spacing: .4px; color: var(--muted); }
+.lab-status .status-meta { flex-basis: 100%; font-size: 11px; color: var(--muted); }
+.view-filters { margin: 0 0 20px; }
+.row-signal { display: block; margin-top: 8px; font: 9px var(--mono); color: var(--accent-deep); }
+.muted.small { font-size: 11px; }
+code.hash { overflow-wrap: anywhere; }
+#provenance-body p { font-size: 12px; line-height: 1.7; color: var(--body); }
+.results-summary {
+  margin-top: 26px;
+  padding: 0 24px 8px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
 }
-.flow-chip text {
-  font: 8px var(--mono);
-  letter-spacing: .08em;
-  fill: var(--muted);
-  text-anchor: middle;
-}
-.flow-name { font: 9px var(--mono); fill: var(--muted); }
-.flow-glyph {
-  font-size: 13px;
-  font-weight: 600;
-  fill: var(--accent);
-  text-anchor: end;
-  transition: fill .25s ease;
-}
+.results-summary .analysis-heading { border-top: 0; margin-top: 0; }
 
-.flow-wire { fill: none; stroke: var(--line-strong); stroke-width: 1.25; }
-.flow-pulse {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 2.25;
-  stroke-linecap: round;
-  stroke-dasharray: 18 82;     /* one 18-unit dash on a pathLength of 100 */
-  stroke-dashoffset: 18;       /* parked just before the start, so it is invisible */
-  opacity: 0;
+/* ==========================================================================
+   AsterKV browser simulation
+   ========================================================================== */
+
+.sim-stage {
+  display: grid;
+  grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
+  gap: 22px;
+  margin-top: 22px;
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: linear-gradient(150deg, var(--surface-2), var(--surface));
 }
+.sim-diagram svg { display: block; width: 100%; height: auto; }
 
-/* Settled states tint the nodes with the same tone the wording uses. */
-.flow.settled.ok .flow-node rect { fill: var(--ok-bg); stroke: var(--accent-line); }
-.flow.settled.neutral .flow-node rect { fill: var(--warn-bg); stroke: var(--warn-line); }
-.flow.settled.neutral .flow-glyph { fill: var(--warn-ink); }
-.flow.settled.error .flow-node rect { fill: var(--error-bg); stroke: var(--error-line); }
-.flow.settled.neutral .flow-pulse { stroke: #c99a3c; }
-.flow.settled.error .flow-pulse { stroke: #b4543c; }
+.sim-link { stroke: var(--line-strong); stroke-width: 1.5; }
+.sim-link.cut { stroke: var(--error-line); stroke-dasharray: 5 5; }
+.sim-client-link { stroke: var(--line); stroke-width: 1; stroke-dasharray: 2 4; }
 
-@media (prefers-reduced-motion: no-preference) {
-  /* Paths 1-4 are the static wires, 5-8 the pulses: 5 runs browser to gateway,
-     6-8 fan out to the three nodes and so start once 5 has arrived. */
-  .flow.sending .flow-pulse { animation: flow-out .9s linear infinite; }
-  .flow.sending .flow-pulse:nth-of-type(n + 6) { animation-delay: .28s; }
+.sim-client rect { fill: var(--surface); stroke: var(--accent-line); }
+.sim-client text { font: 9px var(--mono); letter-spacing: .1em; fill: var(--muted); text-anchor: middle; }
 
-  .flow.settled .flow-pulse { animation: flow-in .55s ease-out both; }
-  .flow.settled .flow-pulse:nth-of-type(5) { animation-delay: .22s; }
+.sim-node circle { fill: var(--surface); stroke: var(--line-strong); stroke-width: 1.5; transition: fill .2s, stroke .2s; }
+.sim-node text { text-anchor: middle; }
+.sim-node-name { font: 11px var(--mono); fill: var(--ink); }
+.sim-node-role { font: 8px var(--mono); letter-spacing: .08em; fill: var(--muted); text-transform: uppercase; }
+.sim-node-term { font: 8px var(--mono); fill: var(--muted); }
+.sim-node.leader circle { fill: var(--accent-soft); stroke: var(--accent); stroke-width: 3; }
+.sim-node.leader .sim-node-role { fill: var(--accent-deep); font-weight: 600; }
+.sim-node.candidate circle { fill: var(--warn-bg); stroke: #c99a3c; }
+.sim-node.stopped circle { fill: var(--surface-2); stroke-dasharray: 4 4; }
+.sim-node.stopped text { fill: var(--line-strong); }
+.sim-node.isolated circle { stroke: #b4543c; }
+
+.packet { stroke: var(--surface); stroke-width: 1; }
+.pk-append { fill: var(--accent); background: var(--accent); }
+.pk-vote { fill: var(--violet); background: var(--violet); }
+.pk-client { fill: var(--teal); background: var(--teal); }
+
+.sim-legend { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin: 6px 0 14px; font: 9px var(--mono); color: var(--muted); }
+.sim-legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 5px; vertical-align: -1px; }
+
+.sim-network label { display: flex; justify-content: space-between; font-size: 12px; color: var(--ink); }
+.sim-network output { font: 11px var(--mono); color: var(--muted); }
+.sim-network input[type=range] { width: 100%; margin: 8px 0 4px; accent-color: var(--accent); padding: 0; border: 0; background: none; }
+.sim-stats { margin: 6px 0 0; font: 10px/1.6 var(--mono); color: var(--muted); }
+
+.sim-nodes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; align-content: start; }
+.sim-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
 }
+.sim-card.leader { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.sim-card.stopped { background: var(--surface-2); }
+.sim-card.isolated { border-color: var(--error-line); }
+.sim-card header { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.sim-card header b { font: 13px var(--mono); color: var(--ink); }
+.sim-role { font: 9px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-align: right; }
+.sim-card.leader .sim-role { color: var(--accent-deep); font-weight: 600; }
 
-/* Dash travels from just before the path start to just past its end. */
-@keyframes flow-out {
-  from { stroke-dashoffset: 18; opacity: 0; }
-  15%, 85% { opacity: 1; }
-  to { stroke-dashoffset: -100; opacity: 0; }
-}
-@keyframes flow-in {
-  from { stroke-dashoffset: -100; opacity: 0; }
-  20%, 80% { opacity: 1; }
-  to { stroke-dashoffset: 18; opacity: 0; }
-}
+.sim-facts { display: grid; grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); gap: 8px 10px; margin: 0; }
+.sim-facts div { display: grid; gap: 2px; min-width: 0; }
+.sim-facts dt { font-size: 9px; color: var(--muted); white-space: nowrap; }
+.sim-facts dd { margin: 0; font: 12px var(--mono); color: var(--ink); }
 
+.sim-log { display: flex; flex-wrap: wrap; gap: 4px; min-height: 38px; align-content: flex-start; }
+.sim-entry {
+  display: grid;
+  max-width: 100%;
+  padding: 3px 6px;
+  border: 1px solid var(--accent-line);
+  border-radius: 4px;
+  font: 9px var(--mono);
+  color: var(--accent-deep);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.sim-entry small { font-size: 8px; color: var(--muted); }
+.sim-entry.committed { background: var(--accent-soft); }
+.sim-entry.pending { border-style: dashed; background: var(--surface); color: var(--warn-ink); border-color: var(--warn-line); }
+.sim-more { align-self: center; font: 9px var(--mono); color: var(--muted); }
+.sim-log .muted, .sim-kv .muted { font-size: 11px; }
+
+.sim-kv { display: grid; gap: 3px; font-size: 11px; color: var(--body); min-height: 18px; }
+.sim-kv code { font: 10px var(--mono); overflow-wrap: anywhere; }
+.sim-controls { display: flex; gap: 6px; margin-top: auto; }
+.sim-controls .small-button { flex: 1; padding-left: 6px; padding-right: 6px; }
+.sim-controls [aria-pressed="true"] { background: var(--error-bg); border-color: var(--error-line); color: var(--error-ink); }
+
+.command-panel select { margin-top: 8px; }
+.event-log-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin-top: 24px; }
+.event-log-head h3 { margin: 0; font-size: 15px; }
+.event-log-head .muted { font-size: 10px; }
+.event-log {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  max-height: 360px;
+  overflow-y: auto;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-2);
+}
+.event-log li {
+  display: grid;
+  grid-template-columns: 44px 58px minmax(0, 1fr);
+  gap: 8px;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--line);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.event-log time { font: 10px var(--mono); color: var(--muted); }
+.event-log b { font: 10px var(--mono); color: var(--ink); font-weight: 500; }
+.event-log span { color: var(--body); overflow-wrap: anywhere; }
+.event-log .ev-leader span, .event-log .ev-committed span { color: var(--accent-deep); }
+.event-log .ev-timeout span, .event-log .ev-truncate span, .event-log .ev-stopped span { color: var(--error-ink); }
+
+@media (max-width: 1100px) {
+  .sim-stage { grid-template-columns: 1fr; }
+  .sim-diagram { max-width: 420px; margin: 0 auto; width: 100%; }
+}
 @media (max-width: 720px) {
-  .flow-svg { max-width: 100%; }
-  .flow-caption { font-size: 9px; }
+  .sim-stage { padding: 14px; }
+  .sim-nodes { grid-template-columns: 1fr; }
+  .results-summary { padding: 0 14px 6px; }
+  .event-log li { grid-template-columns: 38px 50px minmax(0, 1fr); padding: 6px 8px; }
 }
+
+/* "Runs better locally" note above each lab. */
+.local-note {
+  display: grid;
+  gap: 4px;
+  margin: 0 0 18px;
+  padding: 14px 18px;
+  border: 1px solid var(--warn-line);
+  border-left: 3px solid #c99a3c;
+  border-radius: 8px;
+  background: var(--warn-bg);
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--body);
+}
+.local-note b { font-weight: 500; color: var(--warn-ink); }
+.local-note a { white-space: nowrap; }

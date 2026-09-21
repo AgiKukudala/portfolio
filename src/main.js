@@ -5,8 +5,6 @@ import { createRouter } from './router.js';
 import { createWater } from './fx/index.js';
 import { home } from './views/home.js';
 import { projects } from './views/projects.js';
-import { asterkv } from './views/asterkv.js';
-import { insiderpulse } from './views/insiderpulse.js';
 import { fluid } from './views/fluid.js';
 import { resume } from './views/resume.js';
 import { contact } from './views/contact.js';
@@ -49,7 +47,16 @@ const nav = createNav({
 const router = createRouter({
   root: document.querySelector('#app'),
   fallback: 'home',
-  routes: { home, projects, asterkv, insiderpulse, fluid, resume, contact },
+  routes: {
+    home,
+    projects,
+    // The labs carry their own workers and data; load them on first visit.
+    asterkv: () => import('./views/asterkv.js').then((m) => m.asterkv),
+    insiderpulse: () => import('./views/insiderpulse.js').then((m) => m.insiderpulse),
+    fluid,
+    resume,
+    contact,
+  },
   onNavigate(name) {
     nav.closeAll();
     nav.closeMobileMenu();

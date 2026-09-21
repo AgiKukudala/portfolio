@@ -46,11 +46,13 @@ export const labs = [
     stack: 'GO · gRPC · RAFT',
     tagline: 'A replicated key-value store.',
     summary:
-      'Follow one command through a real three-node Raft cluster and inspect the response it commits.',
+      'Three computers keeping one shared list in sync. Save something, switch a computer off, and watch the others carry on.',
     plain:
-      'A shared notebook that three computers keep in sync. Write something on one and the other two have to agree before you are told it saved, so a single machine crashing loses nothing.',
+      'Think of a shared notebook kept by three computers. One of them is in charge. When you save something, at least two of the three must have a copy before you are told it worked, so one computer breaking loses nothing.',
     technical:
-      'A Raft-replicated key-value store in Go. Writes reach a quorum through leader election and log replication over gRPC, with checksummed durable state, snapshots and request deduplication.',
+      'A key-value store in Go that uses the Raft algorithm: the computers vote for a leader, the leader copies every change to the others, and a change counts once most of them have it.',
+    local:
+      'The real AsterKV runs as separate Go programs talking over a network, with data saved to disk. Clone it from GitHub to run the full cluster on your own machine.',
     source: 'https://github.com/AgiKukudala/AsterKV',
     flow: ['CLIENT', 'LEADER', 'QUORUM'],
   },
@@ -61,11 +63,13 @@ export const labs = [
     stack: 'PYTHON · SEC EDGAR · SQLITE',
     tagline: 'Public disclosures, readable research.',
     summary:
-      'Trace an SEC Form 4 filing through parsing, related insider activity and historical evaluation.',
+      'Browse real filings from company insiders buying their own stock, and see when several of them bought at once.',
     plain:
-      'Company insiders have to tell the public when they buy their own stock. This reads those filings and shows when several insiders bought around the same time.',
+      'When a company’s executives or directors buy its stock, they must report it to the government. This collects those reports and points out when several insiders bought around the same time.',
     technical:
-      'A Python pipeline that parses SEC Form 4 XML into SQLite, groups purchases into clusters by insider and date window, scores them with explainable rules, and backtests returns against SPY.',
+      'A Python program that downloads SEC Form 4 filings, finds real stock purchases, groups ones made close together, gives each a simple score, and checks how the stock did afterwards compared with the S&P 500.',
+    local:
+      'The real InsiderPulse is a Python program that downloads fresh filings and price data. Clone it from GitHub to collect up-to-date data and run your own analysis.',
     source: 'https://github.com/AgiKukudala/InsiderPulse',
     flow: ['FORM 4', 'ACTIVITY', 'RESEARCH'],
   },

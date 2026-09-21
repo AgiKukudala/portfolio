@@ -1,26 +1,25 @@
-# Verification record
+# Verification record — static build
 
-Executed locally on September 19–20, 2026 (America/Chicago / UTC).
+Executed locally on 2026-09-21 against the production build (`dist/`) served by
+`python3 -m http.server`, with no Python API, Go gateway or node process used by
+the page. (An older local gateway and API happened to be listening on ports
+8010/8011; the browser check asserts that the page never requested them.)
 
-| Check | Result | Evidence scope |
+| Check | Result | Scope |
 |---|---|---|
-| Original InsiderPulse suite | 92 passed | Original offline parser, filters, scoring, cluster, SEC retry, database, price/backtest and pipeline fixtures |
-| Added HTTP adapter suite | 16 passed | Field/missing-value preservation, pagination, validation, exact cluster enrichment, upstream failure, SEC URL/budget boundaries, Retry-After date/cooldown, real local HTTP 400/404/503/429 |
-| Original vs exposed signals | 47 exact matches | Recomputed from authentic local SEC cache and compared with original stored signals |
-| Historical backtests | 135 exact matches | Original engine rerun using authentic cached Yahoo prices; zero fresh upstream requests |
-| AsterKV race suite | Passed | `go test -race -count=1 ./...`, including original real-socket and process-kill/recovery tests |
-| AsterKV gateway smoke | Passed | Real three-node cluster: PUT/GET/CAS/DELETE, retry identity, namespace separation, invalid operation |
-| Frontend unit checks | 4 passed | Filtering, missing values, safe filing URLs, escaping |
-| Frontend production build | Passed | Vite 7.3.6 |
-| Browser interactions | Passed | See browser-verification.json; real services plus intentionally intercepted failure response |
-| Desktop / 390px mobile | Inspected | Both labs, menus, no horizontal overflow; screenshots in screenshots/ |
-| Compose profiles | Configuration valid | `docker-compose --profile asterkv --profile insiderpulse config --quiet` |
-| Docker build/runtime | Not executed | Docker daemon stopped; Compose plugin absent, standalone docker-compose available |
-| Fresh SEC ingestion | Not executed | No real identifying User-Agent/contact supplied; ingestion stays disabled |
-| Fresh Yahoo price download | Not executed | Existing cache supported reproducible historical evaluation; no fresh-data claim |
+| `npm test` | 29 passed | Analysis equivalence, Raft simulation, helpers |
+| JS analysis vs Python export | 47 / 47 signals identical | Every field incl. float totals, score text, cluster insiders, related filings; also after reversing row order |
+| JS summary stats vs `analytics.summarize_period` | Match (< 1e-12) | 7/30/90-day stored results; values printed by the original pandas code |
+| Dataset re-export (`scripts/export_cache.py`) | Identical data | Run in a scratch copy; transactions, signals and backtests equal to the committed file |
+| Raft simulation, deterministic | 14 scenario tests | Election, commit, catch-up, failover, no-majority timeout, isolated stale leader + truncation, vote refusal, committed-entry protection, CAS, dedup, reset, destroy |
+| Raft randomized faults | 6 seeds, invariants held | Stops, restarts, isolations and delay changes; one leader per term, committed prefixes agree, no acknowledged write lost |
+| `npm run build` | Passed | Vite 7.3.6; labs and workers are separate lazy chunks |
+| Browser check (`scripts/browser-check.mjs`) | 23 checks passed | See `browser-verification.json` |
+| Desktop 1440 px / mobile 390 px | No horizontal overflow on any route | Screenshots in `screenshots/` |
+| Worker lifecycle | 0 workers after leaving AsterKV; never more than 3 | Three round trips plus in-app navigation |
+| Network | No backend, SEC or market-data requests | Only other origin: Google Fonts |
 
-Initial sandboxed socket tests failed with EPERM and were rerun with approved local socket access. An initial pytest command was mistakenly launched from the home directory; it was stopped and the intended project suite then passed. Initial npm installation hit shared-cache permissions; the successful install used a separate temporary npm cache. Browser checks caught and fixed a malformed purchase option and an immediate mobile-menu close issue. These failed attempts are not counted as passing validation.
-
-The shipped sample fixture is synthetic Example Corp XML from the original parser test. Authentic bundled data is separately labeled Cached and includes source DB SHA-256, export time, filing source URLs, and original (timezone-unspecified) retrieval timestamps. A connected API response backed by SQLite remains labeled Cached; connecting to a backend does not turn cached data into fresh SEC data.
-
-The original AsterKV/portfolio brief was not supplied in this thread. There was no pre-existing portfolio or Compose implementation in the public `website` repository. Compatibility with unprovided requirements cannot be claimed.
+Not verified here: the Cloudflare Pages deployment itself (not provisioned), the
+Python and Go suites (their code is unchanged by this conversion), browsers
+other than Playwright's Chromium, and behaviour in background tabs, where
+browsers throttle worker timers and the simulation may hold extra elections.

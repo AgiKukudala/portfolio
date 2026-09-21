@@ -1,2 +1,9 @@
-import {defineConfig} from 'vite';
-export default defineConfig({server:{port:5173,proxy:{'/insider-api':{target:'http://127.0.0.1:8011',rewrite:p=>p.replace('/insider-api','')},'/aster-api':{target:'http://127.0.0.1:8010',rewrite:p=>p.replace('/aster-api','')}}}});
+import { defineConfig } from 'vite';
+
+// Fully static build: no dev proxies or runtime backends. `worker.format: 'es'`
+// keeps the module workers (src/sim/node-worker.js, src/insider/worker.js)
+// as ES modules in the production bundle.
+export default defineConfig({
+  server: { port: 5173 },
+  worker: { format: 'es' },
+});

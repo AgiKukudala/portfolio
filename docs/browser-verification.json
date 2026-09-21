@@ -1,15 +1,28 @@
 {
-  "passed": [
-    "Real cached filing, verified URL, company/date/code filters, 5-insider cluster, historical results",
-    "Empty state",
-    "Synthetic sample labeled, missing price preserved, no fabricated SEC link",
-    "Real InsiderPulse HTTP adapter connected; cached provenance retained",
-    "Connected search queries the backend beyond the initial 200-row page",
-    "Invalid live date range labeled as input error",
-    "Explicit rate-limited frontend state",
-    "Backend failure does not substitute sample data",
-    "Real 3-node AsterKV PUT, GET, CAS success/failure, DELETE, missing GET through browser",
-    "390px mobile layouts, no horizontal overflow, navigation opens and closes",
-    "No browser JavaScript errors"
+  "base": "http://127.0.0.1:4173",
+  "checked": [
+    "home renders; water canvas present (webgl)",
+    "nav links reach Fluid Dynamics, Resume and Contact; water persists on them",
+    "static assets (headshot) are served",
+    "historical dataset loaded in a worker; 47/47 browser-computed signals match the Python export",
+    "UNH May 2025 purchases: Hemsley filing shows $25,019,019, a 5-insider cluster, stored backtests, SEC link",
+    "explorer views: 66 ROWS qualifying rows, 40 ROWS in clusters; score sort works",
+    "aggregate table of all 135 stored historical results",
+    "empty state",
+    "synthetic sample is labelled, keeps missing values, and has no SEC link",
+    "three node workers started",
+    "node3 elected leader",
+    "PUT, GET, CAS success, CAS failure, DELETE, missing GET all committed through the log",
+    "node1 stopped (worker terminated), missed a write, restarted and caught up",
+    "leader node3 stopped; node1 elected; old writes kept and new writes commit",
+    "with two of three nodes stopped, a write times out and is not reported as saved",
+    "majority restored: cluster recovers and every acknowledged write is still readable",
+    "isolated leader node1 could not confirm a write; after reconnecting it stepped down",
+    "reset replaces all three workers and clears state",
+    "navigating away terminates all workers; repeated visits never exceed 3",
+    "no backend calls; only other origins: https://fonts.googleapis.com, https://fonts.gstatic.com",
+    "mobile: no horizontal overflow on any route; menu opens",
+    "reduced motion: message dots are not animated",
+    "no console errors, failed requests or missing assets"
   ]
 }
