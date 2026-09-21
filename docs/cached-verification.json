@@ -1,0 +1,9 @@
+{
+  "signals_match_original": 47,
+  "historical_backtest_results_recomputed": 135,
+  "signals_without_results": 0,
+  "data": "Authentic previously downloaded SEC / Yahoo Finance cache",
+  "network_requests": 0,
+  "scope": "47 signals; 7, 30, 90 calendar-day periods; benchmark SPY",
+  "not_tested": "Fresh Yahoo price download or fresh SEC ingestion"
+}

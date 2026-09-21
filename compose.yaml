@@ -1,0 +1,55 @@
+services:
+  frontend:
+    build: .
+    ports: ["127.0.0.1:5173:80"]
+  node1:
+    profiles: [asterkv]
+    build:
+      context: ./vendor/asterkv
+      dockerfile: Dockerfile.lab
+    image: portfolio-asterkv
+    command: [/node, --id=node1, --addr=0.0.0.0:5101, "--peers=node2=node2:5102,node3=node3:5103", --data=/data]
+    volumes: [node1:/data]
+    healthcheck:
+      test: [CMD, nc, -z, 127.0.0.1, "5101"]
+      interval: 10s
+  node2:
+    profiles: [asterkv]
+    image: portfolio-asterkv
+    command: [/node, --id=node2, --addr=0.0.0.0:5102, "--peers=node1=node1:5101,node3=node3:5103", --data=/data]
+    volumes: [node2:/data]
+    healthcheck:
+      test: [CMD, nc, -z, 127.0.0.1, "5102"]
+      interval: 10s
+  node3:
+    profiles: [asterkv]
+    image: portfolio-asterkv
+    command: [/node, --id=node3, --addr=0.0.0.0:5103, "--peers=node1=node1:5101,node2=node2:5102", --data=/data]
+    volumes: [node3:/data]
+    healthcheck:
+      test: [CMD, nc, -z, 127.0.0.1, "5103"]
+      interval: 10s
+  gateway:
+    profiles: [asterkv]
+    image: portfolio-asterkv
+    depends_on: [node1, node2, node3]
+    environment:
+      ASTERKV_GATEWAY_ADDR: 0.0.0.0:8010
+      ASTERKV_ENDPOINTS: node1=node1:5101,node2=node2:5102,node3=node3:5103
+    healthcheck:
+      test: [CMD, wget, -q, -O, /dev/null, 'http://127.0.0.1:8010/health']
+      interval: 30s
+  insiderpulse:
+    profiles: [insiderpulse]
+    build:
+      context: ./vendor/insiderpulse
+      dockerfile: Dockerfile.lab
+    environment:
+      INSIDERPULSE_USER_AGENT: ${INSIDERPULSE_USER_AGENT:-}
+      INSIDERPULSE_ENABLE_INGEST: ${INSIDERPULSE_ENABLE_INGEST:-0}
+      INSIDERPULSE_OPERATOR_TOKEN: ${INSIDERPULSE_OPERATOR_TOKEN:-}
+    volumes: [./data/insiderpulse:/data]
+volumes:
+  node1:
+  node2:
+  node3:

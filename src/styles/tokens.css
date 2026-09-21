@@ -1,0 +1,61 @@
+/* Design tokens. Nothing below this file hard-codes a colour.
+   Palette: soft off-white ground, neutral grey structure, one icy blue accent.
+   All text/background pairs used for body copy meet WCAG AA (>= 4.5:1). */
+
+:root {
+  /* surfaces */
+  --bg: #f6f8fa;
+  --surface: #ffffff;
+  --surface-2: #eef2f6;
+  --surface-3: #e4ebf2;
+
+  /* ink */
+  --ink: #16202b;          /* headings            ~14:1 on --bg */
+  --body: #3d4b5a;         /* body copy            ~8:1 on --bg */
+  --muted: #5c6b7e;        /* meta, labels        ~5.1:1 on --bg */
+
+  /* structure */
+  --line: #dbe3ec;
+  --line-strong: #c3cfdb;
+
+  /* accent — icy blue */
+  --accent: #2f6d9b;       /* links, active state ~5.2:1 on --bg */
+  --accent-deep: #1f4f73;
+  --accent-soft: #e9f1f8;
+  --accent-line: #a9c8de;
+
+  /* canvas effect, consumed by src/fx/water.js as rgba() triples */
+  --fx-accent: 47, 109, 155;
+  --fx-ice: 122, 163, 193;
+
+  /* semantic states. Success reads as accent blue rather than green, so the
+     palette stays free of the green the design deliberately removed. */
+  --ok-bg: #e9f1f8;
+  --ok-ink: #1f4f73;
+  --ok-line: #a9c8de;
+  --warn-bg: #fdf3e0;
+  --warn-ink: #7a5312;
+  --warn-line: #e6cf9e;
+  --error-bg: #fcecea;
+  --error-ink: #8c3423;
+  --error-line: #e8bcb2;
+  --neutral-bg: #eef2f6;
+  --neutral-ink: #4a5766;
+
+  /* colourful title gradients */
+  --grad-violet: linear-gradient(90deg, #6a4bbd, #a855c9);
+  --grad-teal: linear-gradient(90deg, #3aa887, #3f7fb8);
+  --grad-ocean: linear-gradient(90deg, #1f4f73, #3f7fb8 55%, #5a6fd6);
+  --violet: #6a4bbd;
+  --violet-soft: #efeaf9;
+  --teal: #2f8a6e;
+  --teal-soft: #e6f4ef;
+
+  /* hover lift */
+  --lift: translateY(-3px);
+  --lift-shadow: 0 12px 28px rgb(22 32 43 / .10), 0 3px 8px rgb(22 32 43 / .05);
+
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --radius: 6px;
+  --header-h: 84px;
+}

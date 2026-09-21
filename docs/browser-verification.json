@@ -1,0 +1,15 @@
+{
+  "passed": [
+    "Real cached filing, verified URL, company/date/code filters, 5-insider cluster, historical results",
+    "Empty state",
+    "Synthetic sample labeled, missing price preserved, no fabricated SEC link",
+    "Real InsiderPulse HTTP adapter connected; cached provenance retained",
+    "Connected search queries the backend beyond the initial 200-row page",
+    "Invalid live date range labeled as input error",
+    "Explicit rate-limited frontend state",
+    "Backend failure does not substitute sample data",
+    "Real 3-node AsterKV PUT, GET, CAS success/failure, DELETE, missing GET through browser",
+    "390px mobile layouts, no horizontal overflow, navigation opens and closes",
+    "No browser JavaScript errors"
+  ]
+}

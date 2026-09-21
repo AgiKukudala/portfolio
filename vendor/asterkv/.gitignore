@@ -1,0 +1,13 @@
+# Workspace-local toolchains (Go, protoc, protoc plugins)
+.tools/
+
+# Build output
+bin/
+*.test
+*.out
+
+# Node data directories created by scripts/cluster.sh
+data/
+
+# macOS
+.DS_Store

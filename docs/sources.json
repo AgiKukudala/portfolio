@@ -1,0 +1,12 @@
+{
+  "insiderpulse": {
+    "repository": "https://github.com/AgiKukudala/InsiderPulse.git",
+    "commit": "f05c2bb58e89d20092ba30438227d46e158f79e8",
+    "addition": "insiderpulse/lab_api.py"
+  },
+  "asterkv": {
+    "repository": "https://github.com/AgiKukudala/AsterKV.git",
+    "commit": "356b367bd0fdc9837b7ef8af29228ddde365e432",
+    "addition": "cmd/gateway/main.go"
+  }
+}

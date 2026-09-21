@@ -1,0 +1,185 @@
+/* Page chrome: header, navigation, main container, footer, page headings. */
+
+/* Scoped to the page header: `.resume-entry header` must not inherit any of this. */
+body > header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: var(--header-h);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4%;
+  gap: 25px;
+  backdrop-filter: blur(16px);
+}
+
+.brand {
+  font: 11px var(--mono);
+  letter-spacing: 1px;
+  color: var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  white-space: nowrap;
+}
+.brandmark {
+  font: italic 34px Georgia, serif;
+  letter-spacing: -8px;
+  color: var(--ink);
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  width: 44px; height: 44px;
+  line-height: 34px;
+  padding-left: 5px;
+  display: block;
+}
+.brandmark span { color: var(--accent); }
+
+nav { display: flex; align-items: center; gap: 22px; }
+nav > a, .nav-trigger {
+  color: var(--muted);
+  font-size: 12px;
+  padding: 31px 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: none;
+  font-family: inherit;
+}
+nav > a:hover, .nav-trigger:hover { color: var(--accent); }
+nav > a.active, .nav-trigger.active { color: var(--accent-deep); border-bottom-color: var(--accent); }
+
+/* -- Projects dropdown --------------------------------------------------- */
+
+.nav-group { position: relative; }
+.nav-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+.nav-caret {
+  width: 0; height: 0;
+  border-left: 3.5px solid transparent;
+  border-right: 3.5px solid transparent;
+  border-top: 4px solid currentColor;
+  transition: transform .15s;
+}
+.nav-group.open .nav-caret { transform: rotate(180deg); }
+.nav-group.open .nav-trigger { color: var(--accent-deep); }
+
+.nav-menu {
+  position: absolute;
+  top: calc(100% - 18px);
+  right: 0;
+  z-index: 30;
+  min-width: 250px;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgb(22 32 43 / .1), 0 2px 6px rgb(22 32 43 / .05);
+}
+.nav-menu li { margin: 0; }
+.nav-menu a {
+  display: grid;
+  gap: 2px;
+  padding: 11px 12px;
+  border-radius: 6px;
+  color: var(--ink);
+}
+.nav-menu a b { font-size: 13px; font-weight: 500; }
+.nav-menu a small { font-size: 11px; color: var(--muted); }
+.nav-menu a:hover { background: var(--accent-soft); }
+.nav-menu a.active { background: var(--accent-soft); }
+.nav-menu a.active b { color: var(--accent-deep); }
+
+#menu { display: none; }
+
+main { max-width: 1300px; margin: auto; padding: 0 5% 90px; }
+
+footer {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  padding: 30px 5%;
+  font: 9px var(--mono);
+  letter-spacing: .6px;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+footer a { color: var(--accent); }
+
+/* Shared heading block for every non-lab page. */
+.page-heading { padding: 62px 0 34px; }
+.page-heading h1 { font-size: clamp(38px, 4.6vw, 62px); letter-spacing: -2px; margin: 20px 0 18px; }
+
+/* -- responsive ---------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  nav { gap: 15px; }
+  nav a { font-size: 11px; }
+  .brand { font-size: 9px; }
+}
+
+@media (max-width: 900px) {
+  :root { --header-h: 68px; }
+  body > header { padding: 12px 5%; }
+  .brandmark { width: 38px; height: 38px; font-size: 29px; line-height: 30px; }
+
+  #menu {
+    display: block;
+    background: var(--surface);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius);
+    padding: 9px 12px;
+    color: var(--body);
+    font-size: 11px;
+  }
+  #menu span { margin-left: 14px; }
+
+  nav {
+    display: none;
+    position: absolute;
+    top: var(--header-h);
+    left: 0; right: 0;
+    padding: 12px 5% 18px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+  }
+  nav.open { display: grid; }
+  nav > a { padding: 13px 0; border-bottom: 1px solid var(--line); }
+  nav > a.active { border-bottom-color: var(--accent); }
+
+  /* Inline disclosure instead of a floating panel: no overlap, no clipping,
+     and the whole thing scrolls with the rest of the open menu. */
+  .nav-group { grid-column: 1 / -1; }
+  .nav-trigger {
+    width: 100%;
+    justify-content: space-between;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-menu {
+    position: static;
+    min-width: 0;
+    margin: 4px 0 8px;
+    padding: 4px;
+    background: var(--surface-2);
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .page-heading { padding: 40px 0 26px; }
+  footer { flex-wrap: wrap; line-height: 1.7; padding: 24px 5%; }
+}

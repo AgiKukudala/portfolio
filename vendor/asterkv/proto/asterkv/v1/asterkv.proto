@@ -1,0 +1,23 @@
+syntax = "proto3";
+package asterkv.v1;
+option go_package = "asterkv/proto/asterkv/v1;pb";
+message Command { string op = 1; string key = 2; string value = 3; string expected = 4; string client_id = 5; string request_id = 6; }
+message Result { string value = 1; bool found = 2; bool success = 3; string error = 4; string leader = 5; }
+service KV {
+ rpc Get(Command) returns (Result);
+ rpc Put(Command) returns (Result);
+ rpc Delete(Command) returns (Result);
+ rpc CompareAndSwap(Command) returns (Result);
+}
+message Entry { uint64 index = 1; uint64 term = 2; bytes command = 3; }
+message VoteRequest { uint64 term = 1; string candidate_id = 2; uint64 last_log_index = 3; uint64 last_log_term = 4; }
+message VoteResponse { uint64 term = 1; bool granted = 2; }
+message AppendRequest { uint64 term = 1; string leader_id = 2; uint64 prev_log_index = 3; uint64 prev_log_term = 4; repeated Entry entries = 5; uint64 leader_commit = 6; }
+message AppendResponse { uint64 term = 1; bool success = 2; uint64 next_index = 3; }
+message SnapshotRequest { uint64 term = 1; string leader_id = 2; uint64 last_included_index = 3; uint64 last_included_term = 4; bytes data = 5; }
+message SnapshotResponse { uint64 term = 1; }
+service Raft {
+ rpc RequestVote(VoteRequest) returns (VoteResponse);
+ rpc AppendEntries(AppendRequest) returns (AppendResponse);
+ rpc InstallSnapshot(SnapshotRequest) returns (SnapshotResponse);
+}

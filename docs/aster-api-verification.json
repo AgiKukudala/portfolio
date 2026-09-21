@@ -1,0 +1,11 @@
+{
+  "backend": "real three-node AsterKV via Go HTTP gateway",
+  "passed": [
+    "PUT/GET",
+    "stable request deduplication",
+    "random browser namespace isolation",
+    "atomic CAS success and mismatch",
+    "DELETE and missing GET",
+    "invalid operation rejected"
+  ]
+}

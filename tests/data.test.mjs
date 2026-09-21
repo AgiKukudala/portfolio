@@ -1,0 +1,6 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {filterRows,displayNumber,filingURL,escapeHTML} from '../src/data.js';
+const rows=[{ticker:'UNH',company_name:'UnitedHealth',filing_date:'2025-05-16',transaction_code:'P'},{ticker:'INTC',company_name:'Intel',filing_date:'2025-05-20',transaction_code:'A'}];
+test('company, ticker, filing date and transaction filters',()=>{assert.equal(filterRows(rows,{q:'intel'})[0].ticker,'INTC');assert.equal(filterRows(rows,{q:'unh',start:'2025-05-16',end:'2025-05-16',code:'P'}).length,1);assert.equal(filterRows(rows,{end:'2025-05-15'}).length,0);assert.equal(filterRows(rows,{code:'S'}).length,0);});
+test('missing data is not zero',()=>{assert.equal(displayNumber(null,true),'Not reported');assert.equal(displayNumber(0,true),'$0.00');});
+test('only actual SEC archive URLs are allowed',()=>{assert.equal(filingURL('javascript:alert(1)'),null);assert.equal(filingURL('https://example.com/Archives/edgar/data/1'),null);assert.equal(filingURL('https://www.sec.gov/Archives/edgar/data/1/file.xml'),'https://www.sec.gov/Archives/edgar/data/1/file.xml');});
+test('untrusted fields are escaped',()=>assert.equal(escapeHTML('<script>'),'&lt;script&gt;'));
