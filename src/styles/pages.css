@@ -117,21 +117,6 @@ main, footer { position: relative; z-index: 1; }
 
 /* -- fluid dynamics ------------------------------------------------------ */
 
-.spec-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  padding: 10px 0 30px;
-}
-.spec {
-  padding: 26px 24px;
-  border: 1px solid var(--line);
-  border-radius: 10px;
-  background: var(--surface);
-}
-.spec h3 { margin: 10px 0 8px; }
-.spec p { margin: 0; font-size: 13px; color: var(--muted); }
-
 .model {
   display: grid;
   grid-template-columns: 320px minmax(0, 1fr);
@@ -158,9 +143,30 @@ main, footer { position: relative; z-index: 1; }
 }
 .formula sup { font-size: 10px; }
 
-.constraint-list { padding-left: 20px; font-size: 14px; line-height: 1.9; max-width: 680px; }
-.constraint-list li { margin-bottom: 10px; }
-.constraint-list b { color: var(--ink); font-weight: 500; }
+.fluid-steps { padding-left: 20px; font-size: 14px; line-height: 1.8; max-width: 680px; margin: 0; }
+.fluid-steps li { margin-bottom: 8px; }
+.fluid-steps b, .fluid-cost b { color: var(--ink); font-weight: 500; }
+.fluid-cost { color: var(--muted); margin-top: 18px; }
+
+.project-drawing.fluid-flow { flex-direction: row; flex-wrap: wrap; grid-column: auto; min-height: 0; padding: 22px 16px; gap: 8px 10px; }
+.project-drawing.fluid-flow i { transform: none; }
+.fluid-diagram {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 18px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: var(--surface);
+}
+.fd-sponge { fill: var(--accent-soft); }
+.fd-rest { stroke: var(--line-strong); stroke-dasharray: 4 5; }
+.fd-wave { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; }
+.fd-arrow { stroke: var(--muted); stroke-width: 1.5; }
+.fd-head { fill: var(--muted); }
+.fd-pointer { fill: var(--accent-deep); }
+.fd-label { font: 12px var(--mono); fill: var(--muted); }
+.fd-strong { fill: var(--accent-deep); }
 
 /* -- resume -------------------------------------------------------------- */
 
@@ -226,7 +232,7 @@ main, footer { position: relative; z-index: 1; }
 
 @media (max-width: 900px) {
   .hero { min-height: auto; padding: 50px 0 40px; }
-  .quick-links, .spec-grid, .contact-grid { grid-template-columns: 1fr; }
+  .quick-links, .contact-grid { grid-template-columns: 1fr; }
   .model { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 36px 0; }
   .resume-block { grid-template-columns: 1fr; gap: 14px; }
   .resume-sheet { padding: 8px 24px 28px; }
