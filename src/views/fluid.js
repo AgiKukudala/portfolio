@@ -1,5 +1,5 @@
-// Explainer for the site-wide background. Every constant quoted here is the one the
-// simulation actually uses; see src/fx/water-gl.js and src/fx/water.js.
+// Explainer for the site-wide background. Written for a general reader; the
+// numbers behind it live in src/fx/water-gl.js and src/fx/water.js.
 
 export const fluid = {
   render: () => `
@@ -7,28 +7,28 @@ export const fluid = {
       <div class="eyebrow"><span class="dot"></span> INTERFACE ENGINEERING</div>
       <h1>Fluid Dynamics</h1>
       <p class="intro">
-        The background is a real fluid simulation: a damped wave equation solved on the GPU
-        every frame, then lit from the surface it produces.
+        The background is water. Move your cursor across it and it ripples, like dragging
+        a finger through a still pool.
       </p>
     </section>
 
     <section class="model">
       <div class="model-head">
         <span class="eyebrow">HOW IT WORKS</span>
-        <h2>Five steps</h2>
+        <h2>Four steps</h2>
       </div>
       <div class="model-body">
-        <pre class="formula">&part;&sup2;h/&part;t&sup2; = c&sup2;&nabla;&sup2;h &minus; k&middot;&part;h/&part;t</pre>
         <ol class="fluid-steps">
-          <li><b>Surface.</b> A height grid in a float texture. Each step computes the new height from the last two: <code>2h&#8345; &minus; h&#8345;&#8331;&#8321; + C&sup2;&nabla;&sup2;h</code>.</li>
-          <li><b>Stability.</b> Courant number C = 0.42, under the 2D limit of 0.707. Fixed 1/120&nbsp;s step, up to 3 substeps per frame.</li>
-          <li><b>Input.</b> The pointer presses a Gaussian dent along its path, deeper when faster. A weaker lift behind it forms the wake.</li>
-          <li><b>Decay.</b> Damping is set so a ripple keeps 5% amplitude at 10% of the screen. A sponge border absorbs the rest, so nothing reflects.</li>
-          <li><b>Light.</b> Slope gives the normal, which drives specular and Fresnel. Curvature (&nabla;&sup2;h, already computed) gives caustics for free.</li>
+          <li><b>The surface.</b> The page keeps an invisible grid of heights &mdash; how high or low the water sits at each point.</li>
+          <li><b>You push it.</b> Your cursor dips the surface as it moves, harder when you move faster, and leaves a small wake behind it.</li>
+          <li><b>It spreads.</b> Each dip pushes its neighbours, so ripples travel outward and fade as they go. They soak into the edges instead of bouncing back.</li>
+          <li><b>It gets lit.</b> Wherever the surface tilts, light catches it &mdash; that's the shine and the bright ribbons you see.</li>
         </ol>
         <p class="fluid-cost">
-          <b>Cost:</b> 256-cell grid, adaptive resolution, loop stops when the surface is still.
-          Honors reduced motion. Canvas 2D fallback without WebGL2.
+          <b>Under the hood:</b> the whole thing is one physics equation for waves, redone
+          about a hundred times a second on the graphics card. It idles when the water is
+          still, turns off if you've asked your system to reduce motion, and falls back to a
+          simpler version on older browsers.
         </p>
       </div>
     </section>
@@ -40,15 +40,15 @@ export const fluid = {
       </div>
       <div class="model-body">
         <div class="project-drawing fluid-flow">
-          <span>Pointer</span><i>&#8594;</i><span>Dent h</span><i>&#8594;</i><span>Wave step &#8635;</span><i>&#8594;</i><span>Shade</span><i>&#8594;</i><span>Screen</span>
+          <span>Cursor</span><i>&#8594;</i><span>Dip</span><i>&#8594;</i><span>Ripples spread &#8635;</span><i>&#8594;</i><span>Light</span><i>&#8594;</i><span>Screen</span>
         </div>
 
         <svg class="fluid-diagram" viewBox="0 0 640 220" role="img"
-             aria-label="Cross-section of the surface: the pointer dents it, a wake lifts behind, ripples spread and shrink, and the sponge border absorbs them.">
+             aria-label="Side view of the water: the cursor dips the surface, a wake lifts behind it, ripples spread out and shrink, and the edges soak them up.">
           <rect class="fd-sponge" x="0" y="40" width="70" height="150" />
           <rect class="fd-sponge" x="570" y="40" width="70" height="150" />
-          <text class="fd-label" x="35" y="208" text-anchor="middle">sponge</text>
-          <text class="fd-label" x="605" y="208" text-anchor="middle">sponge</text>
+          <text class="fd-label" x="42" y="208" text-anchor="middle">soaked up</text>
+          <text class="fd-label" x="598" y="208" text-anchor="middle">soaked up</text>
 
           <line class="fd-rest" x1="0" y1="110" x2="640" y2="110" />
           <path class="fd-wave" d="M0 110 L90 110
@@ -61,8 +61,8 @@ export const fluid = {
           <circle class="fd-pointer" cx="330" cy="30" r="7" />
           <line class="fd-arrow" x1="330" y1="40" x2="330" y2="146" marker-end="url(#fd-head)" />
           <line class="fd-arrow" x1="336" y1="30" x2="400" y2="30" marker-end="url(#fd-head)" />
-          <text class="fd-label" x="408" y="34">drag</text>
-          <text class="fd-label fd-strong" x="342" y="178">dent</text>
+          <text class="fd-label" x="408" y="34">you drag</text>
+          <text class="fd-label fd-strong" x="342" y="178">dip</text>
           <text class="fd-label" x="300" y="74" text-anchor="middle">wake</text>
           <text class="fd-label" x="470" y="86" text-anchor="middle">ripples shrink</text>
           <text class="fd-label" x="160" y="140" text-anchor="middle">ripples shrink</text>
