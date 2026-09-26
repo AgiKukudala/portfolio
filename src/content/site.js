@@ -5,7 +5,9 @@ export const profile = {
   name: 'Agastya Kukudala',
   role: 'Software Engineering',
   photo: '/headshot.jpg',   // 256px square, served from public/
-  resumePdf: '/Resume.pdf', // served from public/; replace the file to update
+  // served from public/; replace the file to update. The build appends a
+  // content hash (see vite.config.js) so browsers never show a stale copy.
+  resumePdf: `/Resume.pdf${typeof __RESUME_VERSION__ === 'string' ? `?v=${__RESUME_VERSION__}` : ''}`,
   study: 'CS + Advertising @ UIUC',
   studyDates: 'May 2026 — Dec 2028',
   location: 'Chesterfield, MO',
